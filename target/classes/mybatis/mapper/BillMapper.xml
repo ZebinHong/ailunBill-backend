@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hunfeng.money.mapper.BillMapper">
+<!--    <resultMap id="BillMap" type="bill">-->
+<!--        <result property="id" column="id"/>-->
+<!--        <result property="money" column="money"/>-->
+<!--        <result property="userId" column="user_id"/>-->
+<!--        <result property="details" column="details"/>-->
+<!--        <result property="type" column="type"/>-->
+<!--        <result property="gmtCreate" column="gmt_create"/>-->
+<!--        <result property="gmtModified" column="gmt_modified"/>-->
+<!--    </resultMap>-->
+<!--    <resultMap id="SumMap" type="sum">-->
+<!--        <result property="year" column="year"/>-->
+<!--        <result property="month" column="month"/>-->
+<!--        <result property="count" column="count"/>-->
+<!--        <result property="sum" column="sum"/>-->
+<!--    </resultMap>-->
+
+<!--    <select id="getBillByTime" resultMap="BillMap">-->
+<!--        select id,money,user_id,details,type,gmt_create,gmt_modified-->
+<!--        from m_bill-->
+<!--        where time=#{time}-->
+<!--    </select>-->
+
+<!--    <select id="getAllBillsSortedByTime" resultMap="BillMap" parameterType="Long">-->
+<!--        select id,money,user_id,time,details,type,isExist,receive_or_spend-->
+<!--        from m_bill-->
+<!--        where isExist!=0 and user_id=#{userId}-->
+<!--        order by time desc-->
+<!--    </select>-->
+<!--    &lt;!&ndash;做月份，年份统计账单&ndash;&gt;-->
+<!--    <select id="getReceiveSumOrderByYear" resultMap="SumMap">-->
+<!--        select DATE_FORMAT(time, '%Y') year,count(*) count,sum(money) sum-->
+<!--        from m_bill-->
+<!--        where isExist!=0 and receive_or_spend=1 and user_id=#{userId}-->
+<!--        group by DATE_FORMAT(time, '%Y');-->
+<!--    </select>-->
+<!--    <select id="getSendSumOrderByYear" resultMap="SumMap">-->
+<!--        select DATE_FORMAT(time, '%Y') year,count(*) count,sum(money) sum-->
+<!--        from m_bill-->
+<!--        where isExist!=0 and receive_or_spend=0 and user_id=#{userId}-->
+<!--        group by DATE_FORMAT(time, '%Y');-->
+<!--    </select>-->
+<!--    <select id="getReceiveSumOrderByMonth" resultMap="SumMap">-->
+<!--        select DATE_FORMAT(time, '%Y') year,DATE_FORMAT(time,'%m') month,count(*) count,sum(money) sum-->
+<!--        from m_bill-->
+<!--        where isExist!=0 and receive_or_spend=1 and user_id=#{userId}-->
+<!--        group by DATE_FORMAT(time, '%Y'),DATE_FORMAT(time,'%m');-->
+<!--    </select>-->
+<!--    <select id="getSendSumOrderByMonth" resultMap="SumMap">-->
+<!--        select DATE_FORMAT(time, '%Y') year,DATE_FORMAT(time,'%m') month,count(*) count,sum(money) sum-->
+<!--        from m_bill-->
+<!--        where isExist!=0 and receive_or_spend=0 and user_id=#{userId}-->
+<!--        group by DATE_FORMAT(time, '%Y'),DATE_FORMAT(time,'%m');-->
+<!--    </select>-->
+
+</mapper>

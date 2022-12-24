@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hunfeng.money.mapper.BillMapper">
+    <resultMap id="sumMap" type="com.hunfeng.money.entity.Sum">
+        <result column="year" property="year"></result>
+        <result column="month" property="month"></result>
+        <result column="day" property="day"></result>
+        <result column="total" property="total"></result>
+    </resultMap>
+
+    <!--List<Sum> getStatInHalfYear(@Param("userId") Long userId, @Param("type") Integer type);-->
+    <select id="getStatInHalfYear" resultMap="sumMap">
+        select year(record_time) year, month(record_time) month ,round(sum(money),2) total
+        from dc_bill
+        where user_id = #{userId} and type = #{type} and record_time >= #{beginTime} and record_time &lt; #{endTime}
+        group by year(record_time), month(record_time)
+    </select>
+
+    <select id="getStatInMonth" resultMap="sumMap">
+        select year(record_time) year, month(record_time) month, day(record_time) day, round(sum(money),2) total
+        from dc_bill
+        where user_id = #{userId} and type = #{type}
+        and record_time >= #{beginTime}
+        and record_time &lt; #{endTime}
+        group by day(record_time)
+    </select>
+</mapper>

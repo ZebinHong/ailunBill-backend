@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hunfeng.money.mapper.UserMapper">
+<!--    <resultMap id="UserMap" type="User">-->
+<!--        <result property="id" column="id"/>-->
+<!--        <result property="name" column="name"/>-->
+<!--        <result property="gender" column="gender"/>-->
+<!--        <result property="password" column="password"/>-->
+<!--        <result property="gmtCreate" column="gmt_create"/>-->
+<!--        <result property="gmtModified" column="gmt_modified"/>-->
+<!--        <result property="email" column="email"/>-->
+<!--        <result property="avatar" column="avatar"/>-->
+<!--        <result property="balance" column="balance"/>-->
+<!--    </resultMap>-->
+</mapper>
