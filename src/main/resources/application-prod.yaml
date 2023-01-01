@@ -39,6 +39,6 @@ token:
 #部署相关配置：
 server:
   port: 8081
-WeChat:
-  appid: wx7bb8646bc01bfd42
-  secret: 708e6260e24f7f72c104b794e075a66d
+#WeChat:
+  #appid: 
+  #secret: 
