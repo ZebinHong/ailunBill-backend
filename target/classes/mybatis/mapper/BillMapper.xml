@@ -12,18 +12,33 @@
 
     <!--List<Sum> getStatInHalfYear(@Param("userId") Long userId, @Param("type") Integer type);-->
     <select id="getStatInHalfYear" resultMap="sumMap">
-        select year(record_time) year, month(record_time) month ,round(sum(money),2) total
+        select year(record_time) year, month(record_time) month ,round(sum(money),1) total
         from dc_bill
-        where user_id = #{userId} and type = #{type} and record_time >= #{beginTime} and record_time &lt; #{endTime}
+        where user_id = #{userId}
+        and record_time >= #{beginTime}
+        and record_time &lt; #{endTime}
+        and type = #{type}
+        and deleted = 0
         group by year(record_time), month(record_time)
     </select>
 
     <select id="getStatInMonth" resultMap="sumMap">
-        select year(record_time) year, month(record_time) month, day(record_time) day, round(sum(money),2) total
+        select year(record_time) year, month(record_time) month, day(record_time) day, round(sum(money),1) total
         from dc_bill
-        where user_id = #{userId} and type = #{type}
+        where user_id = #{userId}
         and record_time >= #{beginTime}
         and record_time &lt; #{endTime}
+        and type = #{type}
+        and deleted = 0
         group by day(record_time)
     </select>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="com.hunfeng.money.entity.Bill"
+            useGeneratedKeys="true">
+        insert into dc_bill(money, user_id, details, type, tag_id, record_time, gmt_create, gmt_modified)
+        values
+        <foreach collection="list" item="item" separator="," >
+            (#{item.money}, #{item.userId}, #{item.details}, #{item.type}, #{item.tagId}, #{item.recordTime},
+            now(), now())
+        </foreach>
+    </insert>
 </mapper>

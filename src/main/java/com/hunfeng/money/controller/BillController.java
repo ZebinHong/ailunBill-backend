@@ -14,6 +14,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -110,7 +112,22 @@ public class BillController {
     public Result getStatInHalfYear(@PathVariable("monthYear")String monthYear,
                                     @PathVariable("userId")Long userId,
                                     @PathVariable("type")Integer type){
-        List<Sum> sumList = billService.getStatInHalfYear(monthYear, userId, type);
+        List<Sum> sumList = null;
+        //对type=2做特殊处理
+        if (type.intValue() == 2){
+            List<Sum> t1 = billService.getStatInHalfYear(monthYear, userId, 0);
+            List<Sum> t2 = billService.getStatInHalfYear(monthYear, userId, 1);
+            for (int i = 0; i < t1.size(); i ++ ){
+                double d = t1.get(i).getTotal() - t2.get(i).getTotal();
+                //保留小数点后两位
+                BigDecimal bg = new BigDecimal(d);
+                d = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                t1.get(i).setTotal(d);
+            }
+            sumList = t1;
+        }else {
+            sumList = billService.getStatInHalfYear(monthYear, userId, type);
+        }
         if(sumList == null){
             return Result.error("获取年份收入账单列表失败");
         }else{
@@ -123,7 +140,22 @@ public class BillController {
     public Result getStatInMonth(@PathVariable("monthYear")String monthYear,
                                     @PathVariable("userId")Long userId,
                                     @PathVariable("type")Integer type){
-        List<Sum> sumList = billService.getStatInMonth(monthYear, userId, type);
+        List<Sum> sumList = null;
+        if (type.intValue() == 2){
+            List<Sum> t1 = billService.getStatInMonth(monthYear, userId, 0);
+            List<Sum> t2 = billService.getStatInMonth(monthYear, userId, 1);
+            DecimalFormat df = new DecimalFormat("#.00");
+            for (int i = 0; i < t1.size(); i ++ ){
+                double d = t1.get(i).getTotal() - t2.get(i).getTotal();
+                //保留小数点后两位
+                BigDecimal bg = new BigDecimal(d);
+                d = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                t1.get(i).setTotal(d);
+            }
+            sumList = t1;
+        }else {
+            sumList = billService.getStatInMonth(monthYear, userId, type);
+        }
         if(sumList == null){
             return Result.error("获取月统计失败");
         }else{

@@ -26,4 +26,5 @@ public interface BillMapper extends BaseMapper<Bill> {
                              @Param("beginTime") String beginTime,
                              @Param("endTime") String endTime);
 
+    int batchInsert(@Param("list")List<Bill> cachedDataList);
 }

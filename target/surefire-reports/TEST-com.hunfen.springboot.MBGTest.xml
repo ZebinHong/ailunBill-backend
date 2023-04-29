@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuite tests="0" failures="0" name="com.hunfen.springboot.MBGTest" time="0" errors="0" skipped="0">
   <properties>
+    <property name="idea.version" value="2022.3.2"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
-    <property name="sun.boot.library.path" value="D:\APP\JAVA\jdk1.8.0_152\jre\bin"/>
-    <property name="java.vm.version" value="25.152-b16"/>
+    <property name="java.vm.version" value="17.0.6+9-LTS-190"/>
+    <property name="sun.boot.library.path" value="D:\APP\JAVA\jdk-17.0.6\bin"/>
+    <property name="maven.wagon.http.ssl.insecure" value="true"/>
+    <property name="maven.multiModuleProjectDirectory" value="D:\appdata\Java\rich-backend\money-manager-self"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
-    <property name="maven.multiModuleProjectDirectory" value="D:\appdata\Java\richProgram-backend\money-manager"/>
-    <property name="java.vendor.url" value="http://java.oracle.com/"/>
-    <property name="path.separator" value=";"/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="path.separator" value=";"/>
     <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
-    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="sun.os.patch.level" value=""/>
     <property name="user.script" value=""/>
     <property name="user.country" value="CN"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
-    <property name="sun.os.patch.level" value=""/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="D:\appdata\Java\richProgram-backend\money-manager"/>
-    <property name="java.runtime.version" value="1.8.0_152-b16"/>
-    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="java.endorsed.dirs" value="D:\APP\JAVA\jdk1.8.0_152\jre\lib\endorsed"/>
+    <property name="user.dir" value="D:\appdata\Java\rich-backend\money-manager-self"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="java.runtime.version" value="17.0.6+9-LTS-190"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.io.tmpdir" value="C:\Users\86150\AppData\Local\Temp\"/>
     <property name="line.separator" value="
@@ -27,42 +27,42 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 10"/>
-    <property name="idea.version2020.1" value="true"/>
-    <property name="maven.ext.class.path" value="D:\APP\IntelliJ IDEA 2020.1\IntelliJ IDEA 2020.1\plugins\maven\lib\maven-event-listener.jar"/>
+    <property name="maven.ext.class.path" value="D:\APP\IntelliJ IDEA 2020.1\IntelliJ IDEA Community Edition 2022.3.2\plugins\maven\lib\maven-event-listener.jar"/>
     <property name="classworlds.conf" value="D:\APP\apache-maven-3.5.4\bin\m2.conf"/>
     <property name="sun.jnu.encoding" value="GBK"/>
-    <property name="java.library.path" value="D:\APP\JAVA\jdk1.8.0_152\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\PlasticSCM5\server;C:\Program Files\PlasticSCM5\client;D:\APP\VMware\bin\;D:\APP\oracle\app\oracle\product\11.2.0\server\bin;D:\APP\JAVA\jdk1.8.0_152\bin;C:\ProgramData\Oracle\Java\javapath;D:\Anaconda3;D:\Anaconda3\Library\mingw-w64\bin;D:\Anaconda3\Library\usr\bin;D:\Anaconda3\Library\bin;D:\Anaconda3\Scripts;D:\Program Files\cuda\v10.1\bin;D:\Program Files\cuda\v10.1\libnvvp;D:\Program Files\cuda\v10.1\lib\x64;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;E:\py3;C:\Program Files\dotnet\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;E:\py3\Scripts;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.3.0\;D:\APP\Microsoft VS Code\g++\mingw64\bin;D:\APP\Git\cmd;D:\APP\node.js\;C:\Users\86150\AppData\Roaming\npm;D:\APP\MySql\bin;%MAVEN_HOME%\bin;;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\APP\Ruby27-x64\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Users\86150\AppData\Roaming\npm;D:\APP\Microsoft VS Code\bin;D:\APP\Microsoft VS Code\Mingw-w64\mingw64\bin;D:\APP\apache-maven-3.5.4\bin;;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;."/>
+    <property name="java.library.path" value="D:\APP\JAVA\jdk-17.0.6\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\PlasticSCM5\server;C:\Program Files\PlasticSCM5\client;D:\APP\VMware\bin\;D:\APP\oracle\app\oracle\product\11.2.0\server\bin;D:\APP\JAVA\jdk-17.0.6\bin;C:\ProgramData\Oracle\Java\javapath;D:\Anaconda3;D:\Anaconda3\Library\mingw-w64\bin;D:\Anaconda3\Library\usr\bin;D:\Anaconda3\Library\bin;D:\Anaconda3\Scripts;D:\Program Files\cuda\v10.1\bin;D:\Program Files\cuda\v10.1\libnvvp;D:\Program Files\cuda\v10.1\lib\x64;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;E:\py3;C:\Program Files\dotnet\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;E:\py3\Scripts;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.3.0\;D:\APP\Microsoft VS Code\g++\mingw64\bin;D:\APP\Git\cmd;D:\APP\node.js\;C:\Users\86150\AppData\Roaming\npm;D:\APP\MySql\bin;%MAVEN_HOME%\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;&quot;;D:\APP\微信web开放者工具\dll&quot;;D:\APP\Ruby27-x64\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Users\86150\AppData\Roaming\npm;D:\APP\Microsoft VS Code\bin;D:\APP\Microsoft VS Code\Mingw-w64\mingw64\bin;D:\APP\apache-maven-3.5.4\bin;;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;D:\APP\Fiddler;."/>
+    <property name="jansi.passthrough" value="true"/>
     <property name="maven.conf" value="D:\APP\apache-maven-3.5.4/conf"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="java.class.version" value="61.0"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="maven.repo.local" value="D:\APP\apache-maven-3.5.4\repository"/>
     <property name="os.version" value="10.0"/>
+    <property name="maven.wagon.http.ssl.allowall" value="true"/>
     <property name="user.home" value="C:\Users\86150"/>
     <property name="user.timezone" value="Asia/Shanghai"/>
-    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
-    <property name="java.specification.version" value="1.8"/>
     <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="17"/>
     <property name="user.name" value="86150"/>
-    <property name="java.class.path" value="D:\APP\apache-maven-3.5.4\boot\plexus-classworlds-2.5.2.jar;D:\APP\IntelliJ IDEA 2020.1\IntelliJ IDEA 2020.1\lib\idea_rt.jar"/>
-    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="java.class.path" value="D:\APP\apache-maven-3.5.4\boot\plexus-classworlds-2.5.2.jar"/>
+    <property name="java.vm.specification.version" value="17"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="java.home" value="D:\APP\JAVA\jdk1.8.0_152\jre"/>
-    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version2020.1 -s D:\APP\apache-maven-3.5.4\conf\settings.xml -Dmaven.repo.local=D:\APP\apache-maven-3.5.4\repository install"/>
-    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2022.3.2 -s D:\APP\apache-maven-3.5.4\conf\settings.xml -Dmaven.repo.local=D:\APP\apache-maven-3.5.4\repository install"/>
+    <property name="java.home" value="D:\APP\JAVA\jdk-17.0.6"/>
     <property name="user.language" value="zh"/>
-    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
-    <property name="java.vm.info" value="mixed mode"/>
-    <property name="java.version" value="1.8.0_152"/>
-    <property name="java.ext.dirs" value="D:\APP\JAVA\jdk1.8.0_152\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext"/>
-    <property name="sun.boot.class.path" value="D:\APP\JAVA\jdk1.8.0_152\jre\lib\resources.jar;D:\APP\JAVA\jdk1.8.0_152\jre\lib\rt.jar;D:\APP\JAVA\jdk1.8.0_152\jre\lib\sunrsasign.jar;D:\APP\JAVA\jdk1.8.0_152\jre\lib\jsse.jar;D:\APP\JAVA\jdk1.8.0_152\jre\lib\jce.jar;D:\APP\JAVA\jdk1.8.0_152\jre\lib\charsets.jar;D:\APP\JAVA\jdk1.8.0_152\jre\lib\jfr.jar;D:\APP\JAVA\jdk1.8.0_152\jre\classes"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.version" value="17.0.6"/>
+    <property name="native.encoding" value="GBK"/>
+    <property name="maven.wagon.http.ssl.ignore.validity.dates" value="true"/>
     <property name="java.vendor" value="Oracle Corporation"/>
     <property name="maven.home" value="D:\APP\apache-maven-3.5.4"/>
     <property name="file.separator" value="\"/>
-    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
-    <property name="sun.cpu.endian" value="little"/>
+    <property name="java.version.date" value="2023-01-17"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
-    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
 </testsuite>

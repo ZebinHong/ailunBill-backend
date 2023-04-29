@@ -1,18 +1,17 @@
 package com.hunfeng.money.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,9 +25,10 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("dc_bill")
 @ApiModel(value="Bill对象", description="")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Bill implements Serializable {
 
     private static final long serialVersionUID=1L;
@@ -64,4 +64,7 @@ public class Bill implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") //入参格式化
     @ApiModelProperty(value = "账单记录时间")
     private Date recordTime;
+
+    @TableLogic
+    private Integer deleted;
 }

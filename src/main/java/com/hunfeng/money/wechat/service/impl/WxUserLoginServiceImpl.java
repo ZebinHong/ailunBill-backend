@@ -45,8 +45,6 @@ public class WxUserLoginServiceImpl implements WxUserLoginService {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    private RedisUtil redisUtil;
 
 
     @Override
@@ -70,27 +68,10 @@ public class WxUserLoginServiceImpl implements WxUserLoginService {
             //如果不存在 则新增用户
             if (userByOpenId==null) {
                 String userInfo = WeChatUtil.decryptData(wxUserDto.getEncryptedData(), session_key, wxUserDto.getIv());
-
                 User user = JSONObject.parseObject(userInfo, User.class);
                 System.out.println(user);
-                //这里执行新增用户逻辑
-                //首先 这里的username 先与微信名称一致
                 user.setName(user.getNickName());
-                //password 的话 这里是不需要的 后期可能去掉 所以一直保存null就行
-                //********************************
-                //email需要登录后在填写
-
-                //创建时间 在这里新增的时候生成
-//                user.setCreateTime(new Date());
-
-                //电话号码 需要授权获取后插入 插入电话号码 代表已经认证成功
-                //此时 phone和isindentify 都要做修改
-                //这里先插入 0 表示未认证
-//                user.setIsindentify(0);
-
-                //openID给下吧
                 user.setOpenId(openID);
-
                 Boolean insertUser = userService.save(user);
                 //如果插入成功 则返回给前端
                 if(insertUser){

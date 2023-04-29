@@ -25,9 +25,5 @@ public class UserLoginController {
     public Result login(@RequestBody WxUserDto wxUserDto, HttpServletResponse response){
         WxUserDto wxUserDto1= wxUserLoginService.UserLoginAndRegister(wxUserDto, response);
         return Result.success("登录成功",wxUserDto1);
-
     }
-
-
-
 }

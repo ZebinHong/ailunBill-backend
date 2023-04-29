@@ -26,11 +26,7 @@ public class ExcelController {
 
     @Autowired
     private BillService billService;
-//    @PostConstruct
-//    void started() {
-//        TimeZone.setDefault(TimeZone.getTimeZone("UTC")); //设置时区
-//    }
-    @ApiOperation(value = "Excel批量导入课程类别数据")
+    @ApiOperation(value = "Excel批量导入数据")
     @PostMapping("import/{userId}")
     public Result batchImport(
             @ApiParam(value = "用户id", required = true)
@@ -41,8 +37,26 @@ public class ExcelController {
         InputStream inputStream = null;
         try {
             inputStream = file.getInputStream();
-            // 这里 需要指定读用哪个class去读，然后读取第一个sheet 文件流会自动关闭
             List<Bill> bills = billService.batchImport(inputStream, userId);
+            return Result.success("批量导入成功", bills);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DemoException("Excel数据导入错误");
+        }
+    }
+
+    @ApiOperation(value = "支付宝账单Excel批量导入数据")
+    @PostMapping("alipay/import/{userId}")
+    public Result alipayBatchImport(
+            @ApiParam(value = "用户id", required = true)
+            @PathVariable("userId") Integer userId,
+            @ApiParam(value = "Excel文件", required = true)
+            @RequestParam("file") MultipartFile file)
+            throws DemoException {
+        InputStream inputStream = null;
+        try {
+            inputStream = file.getInputStream();
+            List<Bill> bills = billService.alipayBatchImport(inputStream, userId);
             return Result.success("批量导入成功", bills);
         } catch (Exception e) {
             e.printStackTrace();

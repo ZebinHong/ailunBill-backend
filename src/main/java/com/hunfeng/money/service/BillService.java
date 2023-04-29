@@ -27,4 +27,6 @@ public interface BillService extends IService<Bill> {
     List<Sum> getStatInHalfYear(String monthYear,Long userId, Integer type);
     List<Sum> getStatInMonth(String monthYear, Long userId, Integer type);
     boolean removeBatch(String ids);
+
+    List<Bill> alipayBatchImport(InputStream inputStream, Integer userId);
 }

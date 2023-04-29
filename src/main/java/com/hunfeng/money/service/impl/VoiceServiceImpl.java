@@ -64,10 +64,11 @@ public class VoiceServiceImpl implements VoiceService {
 
     public Map<String, Object> translate(InputStream is) throws DemoException, IOException {
         TokenHolder holder = new TokenHolder(APP_KEY, SECRET_KEY, SCOPE);
+        //调用百度智能云接口，获取可以访问语音识别接口的识别标志：token
         holder.resfresh();
         String token = holder.getToken();
         String result = null;
-        if (METHOD_RAW) {
+        if (METHOD_RAW) {   //判断语音文件上传格式,调用语音识别接口
             result = runRawPostMethod(token, is);
         } else {
             result = runJsonPostMethod(token,is);
@@ -80,7 +81,7 @@ public class VoiceServiceImpl implements VoiceService {
         }
         JSONArray res = json.getJSONArray("result");
         String str = res.getString(0);
-
+        //添加预设定关键字，以便识别收入或支出类型
         HashMap<String, Integer> map = new HashMap<>();
         map.put("花费", -1);
         map.put("花了", -1);
@@ -89,9 +90,11 @@ public class VoiceServiceImpl implements VoiceService {
         String details = null;
         Double money = null;
         Map<String, Object> resMap = new HashMap<>();
-        //超时买菜花费110.9元
+        //对每个关键字进行遍历，判断是字符中包含哪个关键字
         for (String s : map.keySet()){
             if (str.indexOf(s) != -1){
+                //若找到关键字，将字符串以关键字分成两部分，
+                //前一部分为详情，后一部分为金额
                 int i = str.indexOf(s);
                 details = str.substring(0, i);
                 money = getDoubleValue(str, i + 2) * map.get(s);

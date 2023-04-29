@@ -23,7 +23,11 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     @Override
     public String getNameByTagId(Integer tagId) {
         Tag tag = baseMapper.selectById(tagId);
-        return tag.getName();
+        if (tag == null){
+            return null;
+        }else {
+            return tag.getName();
+        }
     }
 
     @Override
@@ -32,6 +36,8 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         QueryWrapper<Tag> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", 1);
         List<Tag> tags1 = baseMapper.selectList(queryWrapper);
+        if (userId == 1 || userId == null)
+            return tags1;
         //再获取本人添加的标签
         QueryWrapper<Tag> queryWrapper2 = new QueryWrapper<>();
         queryWrapper2.eq("user_id", userId);
