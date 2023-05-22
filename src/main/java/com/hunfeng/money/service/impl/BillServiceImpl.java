@@ -167,20 +167,31 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
         c.set(Calendar.YEAR, Integer.parseInt(split[0]));
         c.set(Calendar.MONTH, Integer.parseInt(split[1]));
         c.add(Calendar.MONTH, -5);
-        String startTime = c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH)+"-01 00:00:00"; //六个月前
-        //这里先存值 后边用得到
-        int curMonth = c.get(Calendar.MONTH), curYear = c.get(Calendar.YEAR);
+        int curM = c.get(Calendar.MONTH), curY = c.get(Calendar.YEAR);
+        if (c.get(Calendar.MONTH) == 0){
+            //月份为0表明是12月
+            curM = 12;
+            curY -- ;
+        }
+        String startTime = curY + "-" + curM +"-01 00:00:00"; //六个月前
         c.add(Calendar.MONTH, 6);
         String endTime = c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH)+"-01 00:00:00"; //六个月后
         List<Sum> sums = billMapper.getStatInHalfYear(userId, type, startTime, endTime);
+        Collections.sort(sums, (x, y) -> {
+            if (x.getYear() == y.getYear()){
+                return x.getMonth() - y.getMonth();
+            }else {
+                return x.getYear() - y.getYear();
+            }
+        });
         //补充没有数据的月份，此处用的算法是准备一个理想数组，与之进行比较，若该月份没有则往数组里添加月份。
         List<Sum> targetList = new ArrayList<>();
         while (targetList.size() < 6){
-            targetList.add(new Sum(0, curMonth, curYear, 0));
-            curMonth ++ ;
-            if (curMonth > 12){
-                curYear ++ ;
-                curMonth = 1;
+            targetList.add(new Sum(0, curM, curY, 0));
+            curM ++ ;
+            if (curM > 12){
+                curY ++ ;
+                curM = 1;
             }
         }
         if (sums == null) return targetList;
