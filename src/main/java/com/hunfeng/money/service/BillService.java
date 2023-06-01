@@ -21,12 +21,9 @@ import java.util.List;
 public interface BillService extends IService<Bill> {
     Page<Bill> getBillsByUserId(Integer userId, Page<Bill> page, BillDto billDto) throws ParseException;
     Page<Bill> getDayBillsByUserId(Integer userId, Page<Bill> page, BillDto billDto);
-
     List<Bill> batchImport(InputStream inputStream, Integer userId);
-
     List<Sum> getStatInHalfYear(String monthYear,Long userId, Integer type);
     List<Sum> getStatInMonth(String monthYear, Long userId, Integer type);
     boolean removeBatch(String ids);
-
     List<Bill> alipayBatchImport(InputStream inputStream, Integer userId);
 }

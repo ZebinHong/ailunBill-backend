@@ -15,6 +15,5 @@ import java.util.List;
  */
 public interface TagService extends IService<Tag> {
     String getNameByTagId(Integer tagId);
-
     List<Tag> getTaglist(Integer userId);
 }
