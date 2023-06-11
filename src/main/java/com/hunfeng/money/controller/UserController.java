@@ -4,7 +4,6 @@ package com.hunfeng.money.controller;
 import com.hunfeng.money.common.Result;
 import com.hunfeng.money.entity.User;
 import com.hunfeng.money.service.UserService;
-import com.hunfeng.money.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +18,7 @@ import java.util.List;
  * @since 2022-11-23
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/money/user")
 public class UserController {
     @Autowired

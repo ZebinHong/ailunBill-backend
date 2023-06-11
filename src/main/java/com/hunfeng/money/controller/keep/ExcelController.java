@@ -1,12 +1,8 @@
 package com.hunfeng.money.controller.keep;
 
-import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.support.ExcelTypeEnum;
 import com.hunfeng.money.common.DemoException;
 import com.hunfeng.money.common.Result;
 import com.hunfeng.money.entity.Bill;
-import com.hunfeng.money.entity.ExcelBillData;
-import com.hunfeng.money.listener.ExcelBillDataListener;
 import com.hunfeng.money.service.BillService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -14,13 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.TimeZone;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/money/excel")
 public class ExcelController {
 
