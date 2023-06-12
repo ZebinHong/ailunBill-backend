@@ -22,7 +22,7 @@ import java.util.List;
  * @since 2022-11-23
  */
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/money/tag")
 public class TagController {
     @Autowired

@@ -1,6 +1,7 @@
 package com.hunfeng.money.config;
 
 import com.google.common.base.Predicates;
+import com.google.common.collect.Sets;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -19,6 +20,8 @@ public class Swagger2Config {
     public Docket adminApiConfig(){
 
         return new Docket(DocumentationType.SWAGGER_2)
+                .host("changea.top")
+                .protocols(Sets.newHashSet("http", "https"))
                 .groupName("adminApi")
                 .apiInfo(adminApiInfo())
                 .select()

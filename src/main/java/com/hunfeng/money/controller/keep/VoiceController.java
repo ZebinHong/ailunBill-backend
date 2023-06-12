@@ -12,7 +12,7 @@ import java.io.*;
 import java.util.Map;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/money/voice")
 public class VoiceController {
 

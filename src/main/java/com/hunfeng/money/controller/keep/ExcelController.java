@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/money/excel")
 public class ExcelController {
 

@@ -29,7 +29,7 @@ import java.util.List;
  * @since 2022-11-23
  */
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/money/bill")
 public class BillController {
     @Autowired
