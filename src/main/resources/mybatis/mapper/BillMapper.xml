@@ -3,42 +3,43 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hunfeng.money.mapper.BillMapper">
-    <resultMap id="sumMap" type="com.hunfeng.money.entity.Sum">
-        <result column="year" property="year"></result>
-        <result column="month" property="month"></result>
-        <result column="day" property="day"></result>
-        <result column="total" property="total"></result>
-    </resultMap>
-
-    <!--List<Sum> getStatInHalfYear(@Param("userId") Long userId, @Param("type") Integer type);-->
-    <select id="getStatInHalfYear" resultMap="sumMap">
-        select year(record_time) year, month(record_time) month ,round(sum(money),1) total
-        from dc_bill
-        where user_id = #{userId}
-        and record_time >= #{beginTime}
-        and record_time &lt; #{endTime}
-        and type = #{type}
-        and deleted = 0
-        group by year(record_time), month(record_time)
+    <select id="getBillsPage" resultType="com.hunfeng.money.entity.BillRespDto">
+        SELECT b.id, b.money, b.user_id, b.details, b.type, t.name tagDetail, t.icon_class, b.record_time
+        FROM dc_bill b
+        LEFT JOIN dc_tag t ON b.`tag_id`=t.`id`
+        WHERE b.user_id = #{userId}
+        AND record_time >= #{startDate} AND record_time &lt;= #{endDate} AND deleted=0
+        <if test="tagId != null and tagId != 8">
+            AND tag_id = #{tagId}
+        </if>
+        ORDER BY record_time DESC
     </select>
 
-    <select id="getStatInMonth" resultMap="sumMap">
-        select year(record_time) year, month(record_time) month, day(record_time) day, round(sum(money),1) total
+    <select id="getHalfYearStat" resultType="com.hunfeng.money.entity.Sum">
+        select year(record_time) `year`, month(record_time) `month` ,round(sum(money),1) total
         from dc_bill
-        where user_id = #{userId}
-        and record_time >= #{beginTime}
-        and record_time &lt; #{endTime}
-        and type = #{type}
-        and deleted = 0
-        group by day(record_time)
+        where user_id = #{userId} and record_time >= #{beginTime}
+        and record_time &lt; #{endTime} and type = #{type} and deleted = 0
+        group by `year`, `month`
+        order by `year`, `month`
     </select>
+
+    <select id="getDayOfMonthStat" resultType="com.hunfeng.money.entity.Sum">
+        select year(record_time) `year`, month(record_time) `month`, day(record_time) `day`, round(sum(money),1) total
+        from dc_bill
+        where user_id = #{userId} and record_time >= #{beginTime}
+        and record_time &lt; #{endTime} and type = #{type} and deleted = 0
+        group by `day`
+        order by `day`
+    </select>
+
     <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="com.hunfeng.money.entity.Bill"
             useGeneratedKeys="true">
         insert into dc_bill(money, user_id, details, type, tag_id, record_time, gmt_create, gmt_modified)
         values
         <foreach collection="list" item="item" separator="," >
-            (#{item.money}, #{item.userId}, #{item.details}, #{item.type}, #{item.tagId}, #{item.recordTime},
-            now(), now())
+            (#{item.money}, #{item.userId}, #{item.details},
+            #{item.type}, #{item.tagId}, #{item.recordTime}, now(), now())
         </foreach>
     </insert>
 </mapper>

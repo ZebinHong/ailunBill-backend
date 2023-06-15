@@ -20,31 +20,13 @@ import java.util.List;
 @Service
 public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
 
-    @Override
-    public String getNameByTagId(Integer tagId) {
-        Tag tag = baseMapper.selectById(tagId);
-        if (tag == null){
-            return null;
-        }else {
-            return tag.getName();
-        }
-    }
 
     @Override
     public List<Tag> getTaglist(Integer userId) {
         //先获取公共标签
         QueryWrapper<Tag> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", 1);
-        List<Tag> tags1 = baseMapper.selectList(queryWrapper);
-        if (userId == 1 || userId == null)
-            return tags1;
-        //再获取本人添加的标签
-        QueryWrapper<Tag> queryWrapper2 = new QueryWrapper<>();
-        queryWrapper2.eq("user_id", userId);
-        List<Tag> tags2 = baseMapper.selectList(queryWrapper2);
-        if (userId.intValue() != 1 && tags2 != null && tags2.size() > 0){
-            tags1.addAll(tags2);
-        }
-        return tags1;
+        queryWrapper.or().eq(userId != null && userId != 1, "user_id", userId);
+        return baseMapper.selectList(queryWrapper);
     }
 }

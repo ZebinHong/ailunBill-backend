@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hunfeng.money.common.Result;
 import com.hunfeng.money.entity.Bill;
 import com.hunfeng.money.entity.BillDto;
+import com.hunfeng.money.entity.BillRespDto;
 import com.hunfeng.money.entity.Sum;
 import com.hunfeng.money.service.BillService;
 import com.hunfeng.money.service.impl.BillServiceImpl;
@@ -35,14 +36,14 @@ public class BillController {
     @Autowired
     BillService billService;
 
-    @ApiOperation("根据用户id获取账单")
+    @ApiOperation("根据账单分页列表")
     @PostMapping("list/{userId}/{pageNum}/{pageSize}")
-    public Result getBillsByUserId(@PathVariable("userId")Integer userId,
+    public Result getBillsPage(@PathVariable("userId")Integer userId,
                                    @PathVariable("pageNum")Integer pageNum,
                                    @PathVariable("pageSize")Integer pageSize,
                                    @RequestBody BillDto billDto) throws ParseException {
         Page<Bill> page = new Page(pageNum, pageSize);
-        Page<Bill> billPage = billService.getBillsByUserId(userId,page,billDto);
+        Page<BillRespDto> billPage = billService.getBillsPage(userId,page,billDto);
         if(billPage == null || billPage.getRecords() == null){
             return Result.error("获取失败");
         }else{
@@ -51,12 +52,12 @@ public class BillController {
     }
     @ApiOperation("根据用户id获取某天账单")
     @PostMapping("list-day/{userId}/{pageNum}/{pageSize}")
-    public Result getDayBillsByUserId(@PathVariable("userId")Integer userId,
+    public Result getDayBillsPage(@PathVariable("userId")Integer userId,
                                    @PathVariable("pageNum")Integer pageNum,
                                    @PathVariable("pageSize")Integer pageSize,
                                    @RequestBody BillDto billDto){
         Page<Bill> page = new Page(pageNum, pageSize);
-        Page<Bill> billPage = billService.getDayBillsByUserId(userId,page,billDto);
+        Page<BillRespDto> billPage = billService.getDayBillsPage(userId,page,billDto);
         if(billPage == null || billPage.getRecords() == null){
             return Result.error("获取失败");
         }else{
@@ -110,14 +111,14 @@ public class BillController {
 
     @ApiOperation("获取近半年的统计")
     @GetMapping("/getStatInHalfYear/{monthYear}/{userId}/{type}")
-    public Result getStatInHalfYear(@PathVariable("monthYear")String monthYear,
+    public Result getHalfYearStat(@PathVariable("monthYear")String monthYear,
                                     @PathVariable("userId")Long userId,
                                     @PathVariable("type")Integer type){
         List<Sum> sumList = null;
         //对type=2做特殊处理
         if (type.intValue() == 2){
-            List<Sum> t1 = billService.getStatInHalfYear(monthYear, userId, 0);
-            List<Sum> t2 = billService.getStatInHalfYear(monthYear, userId, 1);
+            List<Sum> t1 = billService.getHalfYearStat(monthYear, userId, 0);
+            List<Sum> t2 = billService.getHalfYearStat(monthYear, userId, 1);
             for (int i = 0; i < t1.size(); i ++ ){
                 double d = t1.get(i).getTotal() - t2.get(i).getTotal();
                 //保留小数点后两位
@@ -127,7 +128,7 @@ public class BillController {
             }
             sumList = t1;
         }else {
-            sumList = billService.getStatInHalfYear(monthYear, userId, type);
+            sumList = billService.getHalfYearStat(monthYear, userId, type);
         }
         if(sumList == null){
             return Result.error("获取年份收入账单列表失败");
@@ -138,13 +139,13 @@ public class BillController {
 
     @ApiOperation("获取某个月的统计")
     @GetMapping("/getStatInMonth/{monthYear}/{userId}/{type}")
-    public Result getStatInMonth(@PathVariable("monthYear")String monthYear,
+    public Result getDayOfMonthStat(@PathVariable("monthYear")String monthYear,
                                     @PathVariable("userId")Long userId,
                                     @PathVariable("type")Integer type){
         List<Sum> sumList = null;
         if (type.intValue() == 2){
-            List<Sum> t1 = billService.getStatInMonth(monthYear, userId, 0);
-            List<Sum> t2 = billService.getStatInMonth(monthYear, userId, 1);
+            List<Sum> t1 = billService.getDayOfMonthStat(monthYear, userId, 0);
+            List<Sum> t2 = billService.getDayOfMonthStat(monthYear, userId, 1);
             DecimalFormat df = new DecimalFormat("#.00");
             for (int i = 0; i < t1.size(); i ++ ){
                 double d = t1.get(i).getTotal() - t2.get(i).getTotal();
@@ -155,7 +156,7 @@ public class BillController {
             }
             sumList = t1;
         }else {
-            sumList = billService.getStatInMonth(monthYear, userId, type);
+            sumList = billService.getDayOfMonthStat(monthYear, userId, type);
         }
         if(sumList == null){
             return Result.error("获取月统计失败");
@@ -176,7 +177,5 @@ public class BillController {
             return Result.success("删除成功");
         }
     }
-
-
 }
 

@@ -14,6 +14,7 @@ import com.hunfeng.money.myenum.TagEnum;
 import com.hunfeng.money.service.BillService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hunfeng.money.service.TagService;
+import io.swagger.annotations.Scope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,90 +41,38 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
     private BillMapper billMapper;
 
     @Override
-    public Page<Bill> getBillsByUserId(Integer userId, Page<Bill> page, BillDto billDto) throws ParseException {
-        //对日期进行处理
+    public Page<BillRespDto> getBillsPage(Integer userId, Page<Bill> page, BillDto billDto) throws ParseException {
+        //对日期进行处理，输入的日期格式为yyyy-MM
         String date = billDto.getDate();
         date += "-01";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         cal.setTime(sdf.parse(date));
-        String start = "";
-        String end = "";
+        String startDate = "";
+        String endDate = "";
         // 设置cal为当月最小日期
         cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
         //获取当月最小日期
-        start = sdf.format(cal.getTime());
+        startDate = sdf.format(cal.getTime());
         // 设置cal为当月最大日期
         cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
         //获取当月最小日期
-        end = sdf.format(cal.getTime());
-        //调用Mybatis-plus类设置查询条件
-        QueryWrapper<Bill> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", userId);
-        queryWrapper.orderByDesc("record_time");
-        Integer tagId = billDto.getTagId();
-        queryWrapper.ge(date != null, "record_time", start + " 00:00:00");
-        queryWrapper.le(date != null, "record_time", end + " 23:59:59");
-        queryWrapper.eq(tagId != null && tagId != TagEnum.QUANBU.id, "tag_id", tagId);
-        Page<Bill> bills = baseMapper.selectPage(page, queryWrapper);
-        //为每条数据添加标签中文
-        for (Bill bill : bills.getRecords()){
-            String name = tagService.getNameByTagId(bill.getTagId());
-            bill.setTagDetail(name);
-        }
-        return bills;
+        endDate = sdf.format(cal.getTime());
+        Page<BillRespDto> billsPage = billMapper.getBillsPage(page,userId,startDate,endDate,billDto.getTagId());
+        return billsPage;
     }
 
     @Override
-    public Page<Bill> getDayBillsByUserId(Integer userId, Page<Bill> page, BillDto billDto) {
+    public Page<BillRespDto> getDayBillsPage(Integer userId, Page<Bill> page, BillDto billDto) {
         String date = billDto.getDate();
         Integer tagId = billDto.getTagId();
-        QueryWrapper<Bill> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", userId);
-        queryWrapper.orderByDesc("record_time");
-        queryWrapper.ge(date != null, "record_time", date + " 00:00:00");
-        queryWrapper.le(date != null, "record_time", date + " 23:59:59");
-        queryWrapper.eq(tagId != null && tagId != TagEnum.QUANBU.id, "tag_id", tagId);
-        Page<Bill> bills = baseMapper.selectPage(page, queryWrapper);
-        for (Bill bill : bills.getRecords()){
-            String name = tagService.getNameByTagId(bill.getTagId());
-            bill.setTagDetail(name);
-        }
+        String startDate = date + " 00:00:00", endDate = date + " 23:59:59";
+        Page<BillRespDto> bills = billMapper.getBillsPage(page,userId, startDate, endDate, tagId);
         return bills;
     }
 
-    private static List<Bill> excelResList = new ArrayList<>();
-    public static void addExcelResList(List<Bill> bills){
-        excelResList.addAll(bills);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
     @Override
-    public List<Bill> batchImport(InputStream inputStream, Integer userId) {
-        excelResList.clear();
-        EasyExcel.read(inputStream, ExcelBillData.class, new ExcelBillDataListener(baseMapper, userId))
-                .registerConverter(new DateTimeZoneStringConverter("GMT+8"))
-                .excelType(ExcelTypeEnum.XLSX)
-                .headRowNumber(17) //从第18行开始读取数据
-                .sheet()
-                .doRead();
-        return excelResList;
-    }
-
-    @Override
-    public List<Bill> alipayBatchImport(InputStream inputStream, Integer userId) {
-        excelResList.clear();
-        EasyExcel.read(inputStream, AlipayExcelBillData.class, new AlipayExcelBillDataListener(baseMapper, userId))
-                .registerConverter(new DateTimeZoneStringConverter("GMT+8"))
-                .excelType(ExcelTypeEnum.XLSX)
-                .headRowNumber(25)
-                .sheet()
-                .doRead();
-        return excelResList;
-    }
-
-    @Override
-    public List<Sum> getStatInMonth(String monthYear, Long userId, Integer type) {
+    public List<Sum> getDayOfMonthStat(String monthYear, Long userId, Integer type) {
         String beginTime = monthYear + "-01 00:00:00";
         String[] split = monthYear.split("-");
         Calendar c = Calendar.getInstance();
@@ -137,12 +86,7 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
             day = c.getActualMaximum(Calendar.DAY_OF_MONTH);
         }
         String endTime = monthYear + "-" + day + " 23:59:59";
-        List<Sum> sums = billMapper.getStatInMonth(userId, type, beginTime, endTime);
-        Collections.sort(sums, (a, b) -> {
-            if (a.getDay() == b.getDay()) return 0;
-            else if (a.getDay() > b.getDay()) return 1;
-            else return -1;
-        });
+        List<Sum> sums = billMapper.getDayOfMonthStat(userId, type, beginTime, endTime);
         if (sums.size() == day) return sums;
         //补充没有数据的天数
         List<Sum> targetList = new ArrayList<>();
@@ -161,7 +105,7 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
     }
 
     @Override
-    public List<Sum> getStatInHalfYear(String monthYear,Long userId, Integer type) {
+    public List<Sum> getHalfYearStat(String monthYear,Long userId, Integer type) {
         Calendar c = Calendar.getInstance();
         String[] split = monthYear.split("-");
         c.set(Calendar.YEAR, Integer.parseInt(split[0]));
@@ -176,14 +120,7 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
         String startTime = curY + "-" + curM +"-01 00:00:00"; //六个月前
         c.add(Calendar.MONTH, 6);
         String endTime = c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH)+"-01 00:00:00"; //六个月后
-        List<Sum> sums = billMapper.getStatInHalfYear(userId, type, startTime, endTime);
-        Collections.sort(sums, (x, y) -> {
-            if (x.getYear() == y.getYear()){
-                return x.getMonth() - y.getMonth();
-            }else {
-                return x.getYear() - y.getYear();
-            }
-        });
+        List<Sum> sums = billMapper.getHalfYearStat(userId, type, startTime, endTime);
         //补充没有数据的月份，此处用的算法是准备一个理想数组，与之进行比较，若该月份没有则往数组里添加月份。
         List<Sum> targetList = new ArrayList<>();
         while (targetList.size() < 6){
@@ -210,7 +147,6 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
         return sums;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean removeBatch(String ids) {
         List<Long> idList = new ArrayList<>();

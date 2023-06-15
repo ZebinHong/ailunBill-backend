@@ -6,9 +6,14 @@ import com.hunfeng.money.entity.Bill;
 import com.hunfeng.money.entity.ExcelBillData;
 import com.hunfeng.money.mapper.BillMapper;
 import com.hunfeng.money.myenum.TagEnum;
+import com.hunfeng.money.service.BillService;
+import com.hunfeng.money.service.ExcelService;
 import com.hunfeng.money.service.impl.BillServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,18 +23,17 @@ import java.util.List;
 @NoArgsConstructor //无参
 public class ExcelBillDataListener extends AnalysisEventListener<ExcelBillData> {
     private static final int BATCH_COUNT = 50;
-
     private List<Bill> cachedDataList = new ArrayList<>();
     private BillMapper billMapper;
-
+    private ExcelService excelService;
     private Integer userId;
-    public ExcelBillDataListener(BillMapper billMapper, Integer userId){
+    public ExcelBillDataListener(BillMapper billMapper, ExcelService excelService, Integer userId){
         this.billMapper = billMapper;
+        this.excelService = excelService;
         this.userId = userId;
     }
     @Override
     public void invoke(ExcelBillData data, AnalysisContext analysisContext) {
-        System.out.println("解析到一条数据:"+ data);
         Double money = data.getMoney();
         String details = data.getDetails();
         Date recordTime = data.getRecordTime();
@@ -55,7 +59,7 @@ public class ExcelBillDataListener extends AnalysisEventListener<ExcelBillData> 
         cachedDataList.add(bill);
         if (cachedDataList.size() >= BATCH_COUNT){
             billMapper.batchInsert(cachedDataList);
-            BillServiceImpl.addExcelResList(cachedDataList);
+            excelService.addExcelResList(cachedDataList);
             cachedDataList = new ArrayList<>();
         }
     }
@@ -63,7 +67,6 @@ public class ExcelBillDataListener extends AnalysisEventListener<ExcelBillData> 
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
         billMapper.batchInsert(cachedDataList);
-        BillServiceImpl.addExcelResList(cachedDataList);
-        System.out.println("导入完成" + cachedDataList.size());
+        excelService.addExcelResList(cachedDataList);
     }
 }
